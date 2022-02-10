@@ -1,0 +1,151 @@
+package datastructure;
+
+public class LinkedList {
+    //使用静态内部类不需要其外围类的对象，直接使用next
+    //定义一个结点
+    static class ListNode {
+        int val; //结点中的值 
+        ListNode next;//定义指针，指向下一个结点的位置
+        //构造方法        
+        public ListNode(int val) {
+            this.val = val;
+        }
+    }
+
+    ListNode head; //定义头结点
+    ListNode tail; //定义尾结点
+    int size; //链表的长度
+
+    //定义链表、初始化
+    public LinkedList() {
+        head = null;
+        tail =  null;
+        size = 0;
+    }
+
+    //在末尾增加新的结点元素
+    public void append(int number) {
+        ListNode newNote = new ListNode(number);
+        //如果尾结点没有，直接新结点为尾结点
+        if(tail == null) {
+            tail = newNote;
+        }else {
+            tail.next = newNote;
+            tail = newNote;
+        }
+    }
+
+    //插入结点(在什么位置，插入什么值)
+    public void insert(int position, int number) {
+        //结点位置大于链表的长度，直接返回
+        if(position > size) {
+            return;
+        }
+        ListNode newNote = new ListNode(number);
+        //在头结点处插入
+        if(position == 0) {
+            newNote.next = head;
+            head = newNote;
+            if(tail == null) {
+                tail = newNote; //如果尾结点没有，也更新？
+            }
+            size++; //链表长度++
+        }else if(position == size) { //在尾结点插入结点
+            this.append(number);
+        }else { //在中间位置插入结点
+            ListNode pre = head; //从头部开始
+            for(int i = 0; i < position -1; i++) { //找到要插入位置的前一个结点
+                pre = pre.next;// 不太懂为什么，这样一个赋值的作用是？
+            }
+            ListNode now = pre.next;
+            newNote.next = now;
+            now = newNote;
+            size++;
+        }
+    }
+
+    //删除结点(遍历，让删除结点的数值等于链表中的结点)
+    public void delete(int number) {
+        //删除头结点，只需要让第二个结点成为头结点
+        if(head != null && head.val == number) {
+            head = head.next;
+            size--;
+            if(size == 0) {
+                tail = haed;
+            }
+        }else {
+            //如果不是头结点，而是尾结点，直接去掉尾结点即可
+            // if(tail != null && tail.val == number) {
+
+            // } 只定义了next指针，不能倒退指向前一个结点，不能这样删除
+
+            //定义两个指针，一个是之前结点位置，另一个是当前结点位置
+            //且指向位置都是头结点
+            ListNode pre = head;
+            ListNode cur = head;
+            while(pre != null && cur != null) {
+                if{cur.val == number} {
+                    // 如果是尾结点
+                    if(cur == tail) {
+                        tail = pre;
+                    }
+                    pre.next = cur.next;
+                    size--;
+                    return;
+                }
+                // 循环遍历
+                pre = cur;
+                cur = cur.next;
+            }
+        }
+   }
+   //查找结点，从开头开始遍历
+   public int search(int number) {
+       ListNode cur = head;
+       for(int i = 0; cur != null; i++) {
+           if(cur.val == number) {
+               return i;
+           }
+           cur = cur.next;
+       }
+       return -1;
+   }
+
+    //更新结点
+    public int update(int oddValue, int newValue) {
+        ListNode cur = head;
+        for(int i = 0; cur != null; i++) {
+            if(cur.val == oddValue) {
+                cur.val = newValue;
+                return i;
+            }
+            cur = cur.next;
+        }
+        return -1;
+    }
+
+    // 打印结点
+    public void display() {
+        ListNode cur = head;
+        while(cur != null) {
+            System.out.println(cur.val + ",");
+            cur = cur.next;
+        }
+    }
+
+    // 测试主函数
+    public static void mian(String[] args) {
+        LinkedList newList = new LinkedList();
+        newList.insert(0, 1);
+        NewList.append(9);
+        newList.insert(2, 2);
+        newList.append(7);
+        newlist.display();
+        System.out.println();
+        System.out.println(newList.search(1));
+        System.out.println(newList.search(0));
+
+        newList.update(2, 9);
+        newList.display();
+    }
+}
